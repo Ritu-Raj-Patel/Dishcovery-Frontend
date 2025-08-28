@@ -1,9 +1,9 @@
 # Recipe Recommendation System Development Plan
 
 ## Phase 0 — Repo & Envs (15–25 min)
-- [ ] Create monorepo
-- [ ] Git init → first commit
-- [ ] Environment variables
+- [x] Create monorepo
+- [x] Git init → first commit
+- [x] Environment variables
   - Backend: `GEMINI_API_KEY=<your_key>` (required)
   - Frontend: `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
 
