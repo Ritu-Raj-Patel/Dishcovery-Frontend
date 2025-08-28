@@ -42,14 +42,14 @@
   - [x] Rating + Favorite toggle
 
 ## Phase 4 — Wiring & States (30–45 min)
-- [ ] Main page state management
-- [ ] On “Find recipes” → call searchRecipes → render RecipeCard[]
-- [ ] Loading spinners & graceful errors
-- [ ] Empty state copy
+- [x] Main page state management
+- [x] On "Find recipes" → call searchRecipes → render RecipeCard[]
+- [x] Loading spinners & graceful errors
+- [x] Empty state copy
 
 ## Phase 5 — Gemini Image Recognition (25–40 min)
-- [ ] ImageUpload → recognizeImage(file) → merge chips uniquely
-- [ ] Resize/compress client image to ~1024px max side before upload
+- [x] ImageUpload → recognizeImage(file) → merge chips uniquely
+- [x] Resize/compress client image to ~1024px max side before upload
 
 ## Phase 6 — Feedback & Suggestions (30–45 min)
 - [ ] useLocalPrefs() hook → favorites/ratings in localStorage
