@@ -8,13 +8,13 @@
   - Frontend: `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
 
 ## Phase 1 — Backend Core (60–75 min)
-- [ ] Dependencies (requirements.txt): fastapi, uvicorn[standard], python-multipart, pydantic==2.*, httpx, google-generativeai, Pillow
-- [ ] Models (lib/models.py): Diet, Difficulty, Ingredient, Nutrition, Recipe, RecognizeResponse, MatchFilters, MatchRequest, ScoredRecipe
-- [ ] Normalization (lib/normalize.py): canon(name), dedupe(list), synonyms map
-- [ ] Substitutions (lib/substitutions.py): editable dict
-- [ ] Matching (lib/matching.py): score_recipe(), hard filters, paginate()
-- [ ] Gemini integration (lib/gemini_ing.py)
-- [ ] API (main.py)
+- [x] Dependencies (requirements.txt): fastapi, uvicorn[standard], python-multipart, pydantic==2.*, httpx, google-generativeai, Pillow
+- [x] Models (lib/models.py): Diet, Difficulty, Ingredient, Nutrition, Recipe, RecognizeResponse, MatchFilters, MatchRequest, ScoredRecipe
+- [x] Normalization (lib/normalize.py): canon(name), dedupe(list), synonyms map
+- [x] Substitutions (lib/substitutions.py): editable dict
+- [x] Matching (lib/matching.py): score_recipe(), hard filters, paginate()
+- [x] Gemini integration (lib/gemini_ing.py)
+- [x] API (main.py)
   - CORS * (dev); restrict in prod
   - GET /health
   - POST /recognize
