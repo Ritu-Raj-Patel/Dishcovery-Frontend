@@ -33,13 +33,13 @@
 - [x] Types (src/types.ts) mirror backend
 - [x] Utils (src/utils/scale.ts): scaleQty(q, fromServ, toServ)
 - [x] API client (src/lib/api.ts)
-- [ ] Components
-  - IngredientChips
-  - ImageUpload
-  - FiltersPanel
-  - RecipeCard
-  - RecipeDetailModal
-  - Rating + Favorite toggle
+- [x] Components
+  - [x] IngredientChips
+  - [x] ImageUpload
+  - [x] FiltersPanel
+  - [x] RecipeCard
+  - [x] RecipeDetailModal
+  - [x] Rating + Favorite toggle
 
 ## Phase 4 — Wiring & States (30–45 min)
 - [ ] Main page state management
