@@ -26,7 +26,7 @@
 - [x] Startup validation: load into Pydantic Recipe[]; log count
 
 ## Phase 3 — Frontend Core (60–75 min)
-- [ ] Scaffold UI
+- [x] Scaffold UI
   - Header with app name + link to GitHub
   - Main page with: Ingredient chips input, Image upload, Filters panel, “Find recipes” button, Results grid
   - Modal/drawer for recipe detail
