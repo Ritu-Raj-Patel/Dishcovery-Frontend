@@ -30,9 +30,9 @@
   - Header with app name + link to GitHub
   - Main page with: Ingredient chips input, Image upload, Filters panel, “Find recipes” button, Results grid
   - Modal/drawer for recipe detail
-- [ ] Types (src/types.ts) mirror backend
-- [ ] Utils (src/utils/scale.ts): scaleQty(q, fromServ, toServ)
-- [ ] API client (src/lib/api.ts)
+- [x] Types (src/types.ts) mirror backend
+- [x] Utils (src/utils/scale.ts): scaleQty(q, fromServ, toServ)
+- [x] API client (src/lib/api.ts)
 - [ ] Components
   - IngredientChips
   - ImageUpload
