@@ -45,7 +45,7 @@ export default function RecipePage() {
   
   // Handle image recognition results
   const handleImageResults = (newIngredients: string[]) => {
-    const uniqueIngredients = [...new Set([...ingredients, ...newIngredients])];
+    const uniqueIngredients = Array.from(new Set([...ingredients, ...newIngredients]));
     setIngredients(uniqueIngredients);
   };
   
@@ -69,7 +69,7 @@ export default function RecipePage() {
         ingredients,
         filters: {
           diet: filters.diet.length > 0 ? filters.diet : undefined,
-          difficulty: filters.difficulty,
+          difficulty: filters.difficulty !== null ? filters.difficulty : undefined,
           maxTime: filters.maxTime,
           servings: servings
         },
