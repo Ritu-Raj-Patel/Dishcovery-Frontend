@@ -22,8 +22,8 @@
   - GET /recipes/{id}
 
 ## Phase 2 — Data (30–45 min)
-- [ ] Seed data/recipes.json with ≥20 recipes
-- [ ] Startup validation: load into Pydantic Recipe[]; log count
+- [x] Seed data/recipes.json with ≥20 recipes
+- [x] Startup validation: load into Pydantic Recipe[]; log count
 
 ## Phase 3 — Frontend Core (60–75 min)
 - [ ] Scaffold UI

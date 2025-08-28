@@ -1,0 +1,746 @@
+import json
+from typing import List, Dict
+
+# Recipe data
+recipes = [
+    {
+        "id": "1",
+        "title": "Chicken Tikka Masala",
+        "cuisine": "Indian",
+        "difficulty": "medium",
+        "timeMinutes": 45,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "chicken", "quantity": 500, "unit": "g"},
+            {"name": "yogurt", "quantity": 200, "unit": "g"},
+            {"name": "tomato", "quantity": 400, "unit": "g"},
+            {"name": "onion", "quantity": 2, "unit": "pcs"},
+            {"name": "garlic", "quantity": 4, "unit": "cloves"},
+            {"name": "ginger", "quantity": 20, "unit": "g"},
+            {"name": "garam masala", "quantity": 2, "unit": "tsp"},
+            {"name": "cumin", "quantity": 1, "unit": "tsp"},
+            {"name": "coriander", "quantity": 1, "unit": "tsp"},
+            {"name": "turmeric", "quantity": 0.5, "unit": "tsp"},
+            {"name": "chili powder", "quantity": 1, "unit": "tsp"},
+            {"name": "cream", "quantity": 200, "unit": "ml"},
+            {"name": "cilantro", "quantity": 10, "unit": "g", "optional": True}
+        ],
+        "steps": [
+            "Cut chicken into bite-sized pieces",
+            "Marinate chicken in yogurt and half the spices for 30 minutes",
+            "Grill or pan-fry the chicken until cooked",
+            "Sauté onions, garlic, and ginger until golden",
+            "Add tomatoes and remaining spices, cook until tomatoes break down",
+            "Blend the sauce until smooth",
+            "Add cream and cooked chicken, simmer for 10 minutes",
+            "Garnish with fresh cilantro and serve with rice or naan"
+        ],
+        "nutritionPerServing": {
+            "kcal": 450,
+            "protein": 35,
+            "carbs": 15,
+            "fat": 25
+        },
+        "keywords": ["indian", "chicken", "curry", "dinner"]
+    },
+    {
+        "id": "2",
+        "title": "Pasta Carbonara",
+        "cuisine": "Italian",
+        "difficulty": "medium",
+        "timeMinutes": 25,
+        "servings": 2,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "spaghetti", "quantity": 200, "unit": "g"},
+            {"name": "egg", "quantity": 2, "unit": "pcs"},
+            {"name": "parmesan cheese", "quantity": 50, "unit": "g"},
+            {"name": "pancetta", "quantity": 100, "unit": "g"},
+            {"name": "black pepper", "quantity": 1, "unit": "tsp"},
+            {"name": "salt", "quantity": 1, "unit": "tsp", "optional": True}
+        ],
+        "steps": [
+            "Cook pasta in salted boiling water until al dente",
+            "Fry pancetta in a pan until crispy",
+            "Whisk eggs and grated parmesan in a bowl",
+            "Drain pasta, reserving some pasta water",
+            "Mix hot pasta with pancetta, remove from heat",
+            "Quickly stir in egg mixture, adding pasta water if needed",
+            "Season with black pepper and serve immediately"
+        ],
+        "nutritionPerServing": {
+            "kcal": 650,
+            "protein": 25,
+            "carbs": 75,
+            "fat": 25
+        },
+        "keywords": ["italian", "pasta", "quick", "dinner"]
+    },
+    {
+        "id": "3",
+        "title": "Vegetable Stir Fry",
+        "cuisine": "Asian",
+        "difficulty": "easy",
+        "timeMinutes": 15,
+        "servings": 2,
+        "dietTags": ["vegetarian", "vegan"],
+        "ingredients": [
+            {"name": "broccoli", "quantity": 200, "unit": "g"},
+            {"name": "bell pepper", "quantity": 1, "unit": "pcs"},
+            {"name": "carrot", "quantity": 2, "unit": "pcs"},
+            {"name": "snap peas", "quantity": 100, "unit": "g"},
+            {"name": "soy sauce", "quantity": 3, "unit": "tbsp"},
+            {"name": "ginger", "quantity": 10, "unit": "g"},
+            {"name": "garlic", "quantity": 2, "unit": "cloves"},
+            {"name": "sesame oil", "quantity": 1, "unit": "tbsp"},
+            {"name": "rice", "quantity": 200, "unit": "g", "optional": True}
+        ],
+        "steps": [
+            "Cook rice according to package instructions",
+            "Cut vegetables into bite-sized pieces",
+            "Heat sesame oil in a wok or large pan",
+            "Add garlic and ginger, stir for 30 seconds",
+            "Add harder vegetables (carrots, broccoli) and stir fry for 3 minutes",
+            "Add softer vegetables (bell pepper, snap peas) and stir for 2 minutes",
+            "Add soy sauce and cook for another minute",
+            "Serve over rice if desired"
+        ],
+        "nutritionPerServing": {
+            "kcal": 250,
+            "protein": 8,
+            "carbs": 35,
+            "fat": 8
+        },
+        "keywords": ["asian", "vegetables", "quick", "healthy"]
+    },
+    {
+        "id": "4",
+        "title": "Beef Tacos",
+        "cuisine": "Mexican",
+        "difficulty": "easy",
+        "timeMinutes": 30,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "ground beef", "quantity": 500, "unit": "g"},
+            {"name": "taco shells", "quantity": 8, "unit": "pcs"},
+            {"name": "lettuce", "quantity": 100, "unit": "g"},
+            {"name": "tomato", "quantity": 2, "unit": "pcs"},
+            {"name": "onion", "quantity": 0.5, "unit": "pcs"},
+            {"name": "cheddar cheese", "quantity": 100, "unit": "g"},
+            {"name": "sour cream", "quantity": 100, "unit": "g"},
+            {"name": "taco seasoning", "quantity": 2, "unit": "tbsp"}
+        ],
+        "steps": [
+            "Brown ground beef in a pan",
+            "Add taco seasoning and 1/4 cup water, simmer for 5 minutes",
+            "Warm taco shells according to package instructions",
+            "Shred lettuce, dice tomatoes and onions",
+            "Grate cheese",
+            "Assemble tacos with beef, lettuce, tomatoes, onions, cheese, and sour cream"
+        ],
+        "nutritionPerServing": {
+            "kcal": 550,
+            "protein": 25,
+            "carbs": 35,
+            "fat": 30
+        },
+        "keywords": ["mexican", "beef", "quick", "dinner"]
+    },
+    {
+        "id": "5",
+        "title": "Greek Salad",
+        "cuisine": "Mediterranean",
+        "difficulty": "easy",
+        "timeMinutes": 15,
+        "servings": 2,
+        "dietTags": ["vegetarian"],
+        "ingredients": [
+            {"name": "tomato", "quantity": 300, "unit": "g"},
+            {"name": "cucumber", "quantity": 200, "unit": "g"},
+            {"name": "red onion", "quantity": 0.5, "unit": "pcs"},
+            {"name": "feta cheese", "quantity": 100, "unit": "g"},
+            {"name": "kalamata olives", "quantity": 50, "unit": "g"},
+            {"name": "olive oil", "quantity": 2, "unit": "tbsp"},
+            {"name": "red wine vinegar", "quantity": 1, "unit": "tbsp"},
+            {"name": "oregano", "quantity": 1, "unit": "tsp"}
+        ],
+        "steps": [
+            "Chop tomatoes into wedges",
+            "Slice cucumber and red onion",
+            "Combine vegetables in a large bowl",
+            "Add olives and crumble feta cheese on top",
+            "Whisk together olive oil, vinegar, and oregano",
+            "Pour dressing over salad and toss gently",
+            "Let sit for 10 minutes before serving"
+        ],
+        "nutritionPerServing": {
+            "kcal": 300,
+            "protein": 10,
+            "carbs": 10,
+            "fat": 25
+        },
+        "keywords": ["mediterranean", "salad", "healthy", "vegetarian"]
+    },
+    {
+        "id": "6",
+        "title": "Butter Chicken",
+        "cuisine": "Indian",
+        "difficulty": "medium",
+        "timeMinutes": 50,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "chicken", "quantity": 600, "unit": "g"},
+            {"name": "butter", "quantity": 50, "unit": "g"},
+            {"name": "tomato", "quantity": 400, "unit": "g"},
+            {"name": "onion", "quantity": 2, "unit": "pcs"},
+            {"name": "garlic", "quantity": 5, "unit": "cloves"},
+            {"name": "ginger", "quantity": 25, "unit": "g"},
+            {"name": "garam masala", "quantity": 2, "unit": "tsp"},
+            {"name": "cumin", "quantity": 1, "unit": "tsp"},
+            {"name": "coriander", "quantity": 1, "unit": "tsp"},
+            {"name": "turmeric", "quantity": 0.5, "unit": "tsp"},
+            {"name": "chili powder", "quantity": 1, "unit": "tsp"},
+            {"name": "cream", "quantity": 200, "unit": "ml"},
+            {"name": "honey", "quantity": 1, "unit": "tbsp"},
+            {"name": "cilantro", "quantity": 10, "unit": "g", "optional": True}
+        ],
+        "steps": [
+            "Cut chicken into bite-sized pieces",
+            "Cook chicken in butter until browned, set aside",
+            "Sauté onions, garlic, and ginger until golden",
+            "Add spices and cook for 1 minute",
+            "Add tomatoes and cook until they break down",
+            "Blend the sauce until smooth",
+            "Return chicken to pan, add cream and honey",
+            "Simmer for 10 minutes",
+            "Garnish with fresh cilantro and serve with rice or naan"
+        ],
+        "nutritionPerServing": {
+            "kcal": 480,
+            "protein": 35,
+            "carbs": 12,
+            "fat": 28
+        },
+        "keywords": ["indian", "chicken", "curry", "dinner"]
+    },
+    {
+        "id": "7",
+        "title": "Margherita Pizza",
+        "cuisine": "Italian",
+        "difficulty": "medium",
+        "timeMinutes": 30,
+        "servings": 2,
+        "dietTags": ["vegetarian"],
+        "ingredients": [
+            {"name": "pizza dough", "quantity": 300, "unit": "g"},
+            {"name": "tomato sauce", "quantity": 100, "unit": "ml"},
+            {"name": "mozzarella cheese", "quantity": 150, "unit": "g"},
+            {"name": "basil", "quantity": 10, "unit": "g"},
+            {"name": "olive oil", "quantity": 1, "unit": "tbsp"},
+            {"name": "salt", "quantity": 0.5, "unit": "tsp"}
+        ],
+        "steps": [
+            "Preheat oven to 250°C (480°F)",
+            "Roll out pizza dough on a floured surface",
+            "Transfer to a pizza stone or baking sheet",
+            "Spread tomato sauce evenly over dough",
+            "Tear mozzarella into small pieces and distribute",
+            "Bake for 10-12 minutes until crust is golden",
+            "Top with fresh basil leaves and a drizzle of olive oil"
+        ],
+        "nutritionPerServing": {
+            "kcal": 550,
+            "protein": 20,
+            "carbs": 65,
+            "fat": 20
+        },
+        "keywords": ["italian", "pizza", "vegetarian", "dinner"]
+    },
+    {
+        "id": "8",
+        "title": "Sushi Rolls",
+        "cuisine": "Japanese",
+        "difficulty": "hard",
+        "timeMinutes": 60,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "sushi rice", "quantity": 300, "unit": "g"},
+            {"name": "nori sheets", "quantity": 4, "unit": "pcs"},
+            {"name": "cucumber", "quantity": 1, "unit": "pcs"},
+            {"name": "avocado", "quantity": 1, "unit": "pcs"},
+            {"name": "crab sticks", "quantity": 8, "unit": "pcs"},
+            {"name": "soy sauce", "quantity": 50, "unit": "ml"},
+            {"name": "wasabi", "quantity": 1, "unit": "tsp"},
+            {"name": "pickled ginger", "quantity": 20, "unit": "g"}
+        ],
+        "steps": [
+            "Cook sushi rice according to package instructions",
+            "Season rice with sushi vinegar while warm",
+            "Cut cucumber and avocado into thin strips",
+            "Place nori sheet on bamboo mat",
+            "Spread rice evenly over nori, leaving 1cm border",
+            "Add filling ingredients in a line across the center",
+            "Roll tightly using the bamboo mat",
+            "Slice into 8 pieces with a sharp knife",
+            "Serve with soy sauce, wasabi, and pickled ginger"
+        ],
+        "nutritionPerServing": {
+            "kcal": 350,
+            "protein": 10,
+            "carbs": 60,
+            "fat": 8
+        },
+        "keywords": ["japanese", "sushi", "seafood", "special"]
+    },
+    {
+        "id": "9",
+        "title": "Caesar Salad",
+        "cuisine": "American",
+        "difficulty": "easy",
+        "timeMinutes": 20,
+        "servings": 2,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "romaine lettuce", "quantity": 200, "unit": "g"},
+            {"name": "parmesan cheese", "quantity": 50, "unit": "g"},
+            {"name": "croutons", "quantity": 50, "unit": "g"},
+            {"name": "caesar dressing", "quantity": 50, "unit": "ml"},
+            {"name": "chicken breast", "quantity": 200, "unit": "g", "optional": True}
+        ],
+        "steps": [
+            "Wash and chop romaine lettuce",
+            "Grate parmesan cheese",
+            "If using chicken, cook and slice",
+            "Combine lettuce, parmesan, and croutons in a large bowl",
+            "Add dressing and toss to coat",
+            "Top with grilled chicken if desired"
+        ],
+        "nutritionPerServing": {
+            "kcal": 320,
+            "protein": 12,
+            "carbs": 15,
+            "fat": 25
+        },
+        "keywords": ["american", "salad", "chicken", "quick"]
+    },
+    {
+        "id": "10",
+        "title": "Lentil Soup",
+        "cuisine": "Middle Eastern",
+        "difficulty": "easy",
+        "timeMinutes": 40,
+        "servings": 4,
+        "dietTags": ["vegan", "vegetarian"],
+        "ingredients": [
+            {"name": "red lentils", "quantity": 200, "unit": "g"},
+            {"name": "onion", "quantity": 1, "unit": "pcs"},
+            {"name": "carrot", "quantity": 2, "unit": "pcs"},
+            {"name": "celery", "quantity": 2, "unit": "stalks"},
+            {"name": "garlic", "quantity": 3, "unit": "cloves"},
+            {"name": "tomato", "quantity": 200, "unit": "g"},
+            {"name": "vegetable broth", "quantity": 1, "unit": "L"},
+            {"name": "cumin", "quantity": 1, "unit": "tsp"},
+            {"name": "coriander", "quantity": 1, "unit": "tsp"},
+            {"name": "lemon", "quantity": 0.5, "unit": "pcs"},
+            {"name": "cilantro", "quantity": 10, "unit": "g"}
+        ],
+        "steps": [
+            "Rinse lentils and set aside",
+            "Dice onion, carrot, and celery",
+            "Sauté vegetables with garlic until soft",
+            "Add spices and cook for 1 minute",
+            "Add lentils, tomatoes, and vegetable broth",
+            "Bring to a boil, then simmer for 25 minutes",
+            "Blend partially for a creamier texture if desired",
+            "Finish with lemon juice and fresh cilantro"
+        ],
+        "nutritionPerServing": {
+            "kcal": 220,
+            "protein": 15,
+            "carbs": 35,
+            "fat": 2
+        },
+        "keywords": ["middle eastern", "soup", "vegan", "healthy"]
+    },
+    {
+        "id": "11",
+        "title": "Beef Rendang",
+        "cuisine": "Indonesian",
+        "difficulty": "hard",
+        "timeMinutes": 120,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "beef chuck", "quantity": 800, "unit": "g"},
+            {"name": "coconut milk", "quantity": 400, "unit": "ml"},
+            {"name": "rendang spice paste", "quantity": 3, "unit": "tbsp"},
+            {"name": "lemongrass", "quantity": 2, "unit": "stalks"},
+            {"name": "bay leaves", "quantity": 3, "unit": "pcs"},
+            {"name": "kaffir lime leaves", "quantity": 4, "unit": "pcs"},
+            {"name": "tamarind paste", "quantity": 1, "unit": "tbsp"}
+        ],
+        "steps": [
+            "Cut beef into cubes and set aside",
+            "Heat spice paste in a heavy-bottomed pot",
+            "Add beef and cook until browned",
+            "Add coconut milk, lemongrass, bay leaves, and kaffir lime leaves",
+            "Simmer on low heat for 1.5-2 hours, stirring occasionally",
+            "Add tamarind paste in the last 30 minutes",
+            "Cook until sauce is thick and dark brown",
+            "Serve with steamed rice"
+        ],
+        "nutritionPerServing": {
+            "kcal": 420,
+            "protein": 35,
+            "carbs": 10,
+            "fat": 25
+        },
+        "keywords": ["indonesian", "beef", "special", "curry"]
+    },
+    {
+        "id": "12",
+        "title": "Vegetable Curry",
+        "cuisine": "Indian",
+        "difficulty": "easy",
+        "timeMinutes": 35,
+        "servings": 4,
+        "dietTags": ["vegan", "vegetarian"],
+        "ingredients": [
+            {"name": "potato", "quantity": 300, "unit": "g"},
+            {"name": "cauliflower", "quantity": 200, "unit": "g"},
+            {"name": "carrot", "quantity": 200, "unit": "g"},
+            {"name": "peas", "quantity": 100, "unit": "g"},
+            {"name": "onion", "quantity": 2, "unit": "pcs"},
+            {"name": "tomato", "quantity": 200, "unit": "g"},
+            {"name": "garlic", "quantity": 4, "unit": "cloves"},
+            {"name": "ginger", "quantity": 20, "unit": "g"},
+            {"name": "curry powder", "quantity": 2, "unit": "tbsp"},
+            {"name": "coconut milk", "quantity": 200, "unit": "ml"},
+            {"name": "cilantro", "quantity": 10, "unit": "g"}
+        ],
+        "steps": [
+            "Chop vegetables into bite-sized pieces",
+            "Sauté onions, garlic, and ginger until golden",
+            "Add curry powder and cook for 1 minute",
+            "Add potatoes and carrots, cook for 5 minutes",
+            "Add cauliflower, tomatoes, and 1/2 cup water",
+            "Cover and cook for 15 minutes",
+            "Add peas and coconut milk",
+            "Cook for another 10 minutes until vegetables are tender",
+            "Garnish with fresh cilantro"
+        ],
+        "nutritionPerServing": {
+            "kcal": 280,
+            "protein": 8,
+            "carbs": 35,
+            "fat": 12
+        },
+        "keywords": ["indian", "vegetables", "vegan", "curry"]
+    },
+    {
+        "id": "13",
+        "title": "Chocolate Chip Cookies",
+        "cuisine": "American",
+        "difficulty": "easy",
+        "timeMinutes": 25,
+        "servings": 24,
+        "dietTags": ["vegetarian"],
+        "ingredients": [
+            {"name": "flour", "quantity": 250, "unit": "g"},
+            {"name": "butter", "quantity": 115, "unit": "g"},
+            {"name": "brown sugar", "quantity": 100, "unit": "g"},
+            {"name": "white sugar", "quantity": 100, "unit": "g"},
+            {"name": "egg", "quantity": 2, "unit": "pcs"},
+            {"name": "vanilla extract", "quantity": 1, "unit": "tsp"},
+            {"name": "baking soda", "quantity": 1, "unit": "tsp"},
+            {"name": "salt", "quantity": 1, "unit": "tsp"},
+            {"name": "chocolate chips", "quantity": 200, "unit": "g"}
+        ],
+        "steps": [
+            "Preheat oven to 190°C (375°F)",
+            "Cream together butter and sugars until light and fluffy",
+            "Beat in eggs and vanilla extract",
+            "In a separate bowl, whisk together flour, baking soda, and salt",
+            "Gradually mix dry ingredients into wet ingredients",
+            "Fold in chocolate chips",
+            "Drop spoonfuls of dough onto baking sheets",
+            "Bake for 9-11 minutes until golden brown",
+            "Cool on wire racks"
+        ],
+        "nutritionPerServing": {
+            "kcal": 150,
+            "protein": 2,
+            "carbs": 20,
+            "fat": 7
+        },
+        "keywords": ["american", "dessert", "cookies", "sweet"]
+    },
+    {
+        "id": "14",
+        "title": "Tom Yum Soup",
+        "cuisine": "Thai",
+        "difficulty": "medium",
+        "timeMinutes": 30,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "shrimp", "quantity": 300, "unit": "g"},
+            {"name": "mushrooms", "quantity": 200, "unit": "g"},
+            {"name": "lemongrass", "quantity": 2, "unit": "stalks"},
+            {"name": "kaffir lime leaves", "quantity": 4, "unit": "pcs"},
+            {"name": "galangal", "quantity": 20, "unit": "g"},
+            {"name": "fish sauce", "quantity": 3, "unit": "tbsp"},
+            {"name": "lime juice", "quantity": 2, "unit": "tbsp"},
+            {"name": "chili", "quantity": 2, "unit": "pcs"},
+            {"name": "coconut milk", "quantity": 200, "unit": "ml"}
+        ],
+        "steps": [
+            "Bruise lemongrass and slice galangal",
+            "Bring 1L of water to boil in a pot",
+            "Add lemongrass, galangal, kaffir lime leaves, and chilies",
+            "Simmer for 10 minutes to infuse flavors",
+            "Add mushrooms and shrimp",
+            "Cook for 3-5 minutes until shrimp are pink",
+            "Add fish sauce, lime juice, and coconut milk",
+            "Taste and adjust seasoning",
+            "Serve hot"
+        ],
+        "nutritionPerServing": {
+            "kcal": 180,
+            "protein": 15,
+            "carbs": 8,
+            "fat": 8
+        },
+        "keywords": ["thai", "soup", "seafood", "spicy"]
+    },
+    {
+        "id": "15",
+        "title": "Quinoa Salad",
+        "cuisine": "Mediterranean",
+        "difficulty": "easy",
+        "timeMinutes": 25,
+        "servings": 4,
+        "dietTags": ["vegan", "vegetarian", "gluten_free"],
+        "ingredients": [
+            {"name": "quinoa", "quantity": 200, "unit": "g"},
+            {"name": "cucumber", "quantity": 1, "unit": "pcs"},
+            {"name": "tomato", "quantity": 2, "unit": "pcs"},
+            {"name": "red onion", "quantity": 0.5, "unit": "pcs"},
+            {"name": "feta cheese", "quantity": 100, "unit": "g"},
+            {"name": "olive oil", "quantity": 3, "unit": "tbsp"},
+            {"name": "lemon juice", "quantity": 2, "unit": "tbsp"},
+            {"name": "parsley", "quantity": 20, "unit": "g"}
+        ],
+        "steps": [
+            "Rinse quinoa and cook according to package instructions",
+            "Let quinoa cool to room temperature",
+            "Dice cucumber, tomatoes, and red onion",
+            "Combine quinoa and vegetables in a large bowl",
+            "Crumble feta cheese over the top",
+            "Whisk together olive oil and lemon juice",
+            "Pour dressing over salad and toss",
+            "Garnish with chopped parsley"
+        ],
+        "nutritionPerServing": {
+            "kcal": 290,
+            "protein": 10,
+            "carbs": 35,
+            "fat": 12
+        },
+        "keywords": ["mediterranean", "salad", "healthy", "gluten_free"]
+    },
+    {
+        "id": "16",
+        "title": "Beef Stroganoff",
+        "cuisine": "Russian",
+        "difficulty": "medium",
+        "timeMinutes": 45,
+        "servings": 4,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "beef sirloin", "quantity": 600, "unit": "g"},
+            {"name": "mushrooms", "quantity": 300, "unit": "g"},
+            {"name": "onion", "quantity": 1, "unit": "pcs"},
+            {"name": "sour cream", "quantity": 200, "unit": "ml"},
+            {"name": "beef broth", "quantity": 200, "unit": "ml"},
+            {"name": "flour", "quantity": 2, "unit": "tbsp"},
+            {"name": "butter", "quantity": 30, "unit": "g"},
+            {"name": "dijon mustard", "quantity": 1, "unit": "tsp"},
+            {"name": "egg noodles", "quantity": 300, "unit": "g"}
+        ],
+        "steps": [
+            "Slice beef into thin strips",
+            "Sauté mushrooms and onions until golden",
+            "Remove vegetables and cook beef until browned",
+            "Sprinkle flour over beef and stir",
+            "Add beef broth and bring to a simmer",
+            "Return vegetables to the pan",
+            "Stir in sour cream and mustard",
+            "Cook egg noodles according to package instructions",
+            "Serve beef stroganoff over noodles"
+        ],
+        "nutritionPerServing": {
+            "kcal": 520,
+            "protein": 35,
+            "carbs": 45,
+            "fat": 22
+        },
+        "keywords": ["russian", "beef", "comfort", "dinner"]
+    },
+    {
+        "id": "17",
+        "title": "Avocado Toast",
+        "cuisine": "American",
+        "difficulty": "easy",
+        "timeMinutes": 10,
+        "servings": 1,
+        "dietTags": ["vegan", "vegetarian"],
+        "ingredients": [
+            {"name": "bread", "quantity": 2, "unit": "slices"},
+            {"name": "avocado", "quantity": 1, "unit": "pcs"},
+            {"name": "lemon juice", "quantity": 0.5, "unit": "tbsp"},
+            {"name": "salt", "quantity": 0.25, "unit": "tsp"},
+            {"name": "red pepper flakes", "quantity": 0.25, "unit": "tsp"},
+            {"name": "tomato", "quantity": 0.5, "unit": "pcs", "optional": True}
+        ],
+        "steps": [
+            "Toast bread until golden brown",
+            "Cut avocado in half, remove pit",
+            "Scoop avocado into a bowl and mash with lemon juice",
+            "Season with salt and red pepper flakes",
+            "Spread avocado mixture on toast",
+            "Top with sliced tomato if desired"
+        ],
+        "nutritionPerServing": {
+            "kcal": 320,
+            "protein": 8,
+            "carbs": 30,
+            "fat": 18
+        },
+        "keywords": ["american", "breakfast", "quick", "healthy"]
+    },
+    {
+        "id": "18",
+        "title": "Pad Thai",
+        "cuisine": "Thai",
+        "difficulty": "medium",
+        "timeMinutes": 30,
+        "servings": 2,
+        "dietTags": ["pescetarian"],
+        "ingredients": [
+            {"name": "rice noodles", "quantity": 200, "unit": "g"},
+            {"name": "shrimp", "quantity": 200, "unit": "g"},
+            {"name": "tofu", "quantity": 100, "unit": "g"},
+            {"name": "bean sprouts", "quantity": 100, "unit": "g"},
+            {"name": "egg", "quantity": 2, "unit": "pcs"},
+            {"name": "peanuts", "quantity": 50, "unit": "g"},
+            {"name": "lime", "quantity": 1, "unit": "pcs"},
+            {"name": "fish sauce", "quantity": 2, "unit": "tbsp"},
+            {"name": "tamarind paste", "quantity": 1, "unit": "tbsp"},
+            {"name": "palm sugar", "quantity": 2, "unit": "tbsp"}
+        ],
+        "steps": [
+            "Soak rice noodles in warm water for 10 minutes",
+            "Prepare sauce by combining fish sauce, tamarind, and palm sugar",
+            "Heat oil in a wok or large pan",
+            "Scramble eggs and set aside",
+            "Add shrimp and tofu, cook until done",
+            "Add drained noodles and sauce, stir-fry for 2 minutes",
+            "Add bean sprouts and scrambled eggs",
+            "Serve hot with crushed peanuts and lime wedges"
+        ],
+        "nutritionPerServing": {
+            "kcal": 480,
+            "protein": 25,
+            "carbs": 65,
+            "fat": 12
+        },
+        "keywords": ["thai", "noodles", "seafood", "quick"]
+    },
+    {
+        "id": "19",
+        "title": "Mushroom Risotto",
+        "cuisine": "Italian",
+        "difficulty": "medium",
+        "timeMinutes": 40,
+        "servings": 4,
+        "dietTags": ["vegetarian"],
+        "ingredients": [
+            {"name": "arborio rice", "quantity": 300, "unit": "g"},
+            {"name": "mushrooms", "quantity": 400, "unit": "g"},
+            {"name": "onion", "quantity": 1, "unit": "pcs"},
+            {"name": "white wine", "quantity": 100, "unit": "ml"},
+            {"name": "vegetable broth", "quantity": 1, "unit": "L"},
+            {"name": "parmesan cheese", "quantity": 100, "unit": "g"},
+            {"name": "butter", "quantity": 50, "unit": "g"},
+            {"name": "parsley", "quantity": 10, "unit": "g"}
+        ],
+        "steps": [
+            "Heat vegetable broth in a separate pot",
+            "Sauté mushrooms until golden, set aside",
+            "Chop onion finely and sauté until translucent",
+            "Add rice and stir for 2 minutes",
+            "Add wine and stir until absorbed",
+            "Add hot broth one ladle at a time, stirring constantly",
+            "Continue until rice is creamy and al dente (about 18 minutes)",
+            "Stir in butter, parmesan, and mushrooms",
+            "Garnish with chopped parsley"
+        ],
+        "nutritionPerServing": {
+            "kcal": 380,
+            "protein": 12,
+            "carbs": 55,
+            "fat": 12
+        },
+        "keywords": ["italian", "rice", "vegetarian", "comfort"]
+    },
+    {
+        "id": "20",
+        "title": "Chickpea Curry",
+        "cuisine": "Indian",
+        "difficulty": "easy",
+        "timeMinutes": 30,
+        "servings": 4,
+        "dietTags": ["vegan", "vegetarian"],
+        "ingredients": [
+            {"name": "chickpeas", "quantity": 400, "unit": "g"},
+            {"name": "tomato", "quantity": 300, "unit": "g"},
+            {"name": "onion", "quantity": 1, "unit": "pcs"},
+            {"name": "garlic", "quantity": 4, "unit": "cloves"},
+            {"name": "ginger", "quantity": 20, "unit": "g"},
+            {"name": "garam masala", "quantity": 2, "unit": "tsp"},
+            {"name": "cumin", "quantity": 1, "unit": "tsp"},
+            {"name": "coriander", "quantity": 1, "unit": "tsp"},
+            {"name": "turmeric", "quantity": 0.5, "unit": "tsp"},
+            {"name": "coconut milk", "quantity": 200, "unit": "ml"},
+            {"name": "cilantro", "quantity": 10, "unit": "g"}
+        ],
+        "steps": [
+            "Drain and rinse chickpeas",
+            "Sauté onions, garlic, and ginger until golden",
+            "Add spices and cook for 1 minute",
+            "Add tomatoes and cook until they break down",
+            "Add chickpeas and 1/2 cup water",
+            "Simmer for 15 minutes",
+            "Add coconut milk and cook for another 5 minutes",
+            "Garnish with fresh cilantro and serve with rice"
+        ],
+        "nutritionPerServing": {
+            "kcal": 320,
+            "protein": 12,
+            "carbs": 45,
+            "fat": 10
+        },
+        "keywords": ["indian", "chickpeas", "vegan", "curry"]
+    }
+]
+
+# Save to file
+with open('backend/data/recipes.json', 'w') as f:
+    json.dump(recipes, f, indent=2)
+
+print(f"Generated {len(recipes)} recipes and saved to backend/data/recipes.json")
