@@ -48,7 +48,9 @@ export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    // Handle both direct array and paginated response formats
+    return Array.isArray(data) ? data : (data.results || []);
   } catch (error) {
     console.error("Error searching recipes:", error);
     return [];
