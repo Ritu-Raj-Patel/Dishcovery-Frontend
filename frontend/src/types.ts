@@ -39,6 +39,7 @@ export interface Recipe {
   steps: string[];
   nutritionPerServing: Nutrition;
   keywords: string[];
+  imageUrl?: string; // Optional image URL
 }
 
 // Response from ingredient recognition

@@ -5,13 +5,13 @@ interface RecipeCardProps {
 }
 
 export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
+  const { recipe, score } = scoredRecipe;
+  
   // Check if scoredRecipe is valid
-  if (!scoredRecipe || !scoredRecipe.recipe) {
+  if (!scoredRecipe || !recipe) {
     console.warn("Invalid scoredRecipe data:", scoredRecipe);
     return null;
   }
-  
-  const { recipe, score } = scoredRecipe;
   
   // Additional checks for required recipe properties
   if (!recipe.id || !recipe.title) {
@@ -47,12 +47,44 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
     return 0;
   };
   
+  // Generate a placeholder image based on recipe title
+  const generatePlaceholderImage = (title: string) => {
+    // Simple hash function to generate consistent colors
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) {
+      hash = title.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Generate a color based on the hash
+    const hue = Math.abs(hash) % 360;
+    return `https://placehold.co/400x300/${hue.toString(16).padStart(2, '0')}a0c0/ffffff?text=${encodeURIComponent(title)}`;
+  };
+  
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
+      {recipe.imageUrl ? (
+        <img 
+          src={recipe.imageUrl} 
+          alt={recipe.title}
+          className="w-full h-48 object-cover"
+          onError={(e) => {
+            // If image fails to load, generate a placeholder
+            const target = e.target as HTMLImageElement;
+            target.src = generatePlaceholderImage(recipe.title);
+          }}
+        />
+      ) : (
+        <div className="w-full h-48 bg-gradient-to-r from-blue-100 to-green-100 flex items-center justify-center">
+          <span className="text-gray-600 font-medium text-center px-4">
+            {recipe.title}
+          </span>
+        </div>
+      )}
+      
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-bold text-gray-800">{recipe.title}</h3>
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+          <h3 className="text-lg font-bold text-gray-800 line-clamp-2">{recipe.title}</h3>
+          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded whitespace-nowrap">
             {score.toFixed(1)}%
           </span>
         </div>
@@ -66,7 +98,7 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
         </div>
         
         <div className="flex flex-wrap gap-1 mb-3">
-          {safeDietTags.map((tag) => (
+          {safeDietTags.slice(0, 3).map((tag) => (
             <span 
               key={tag} 
               className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded"

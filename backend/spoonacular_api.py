@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 # Get API key from environment variables
-SPOONACULAR_API_KEY = "0fd44feed530490d991107541986964e"  # Using the provided key
+SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY")
 
 # Pydantic models
 class Ingredient(BaseModel):
@@ -60,11 +60,14 @@ class SearchRequest(BaseModel):
 
 def search_recipes_spoonacular(ingredients: List[str], limit: int = 10):
     """Search for recipes using Spoonacular API"""
+    if not SPOONACULAR_API_KEY:
+        return []
+    
     try:
         # Build the ingredient string
         ingredient_string = ",".join(ingredients)
         
-        # Make API request to find recipes by ingredients
+        # Make API request
         url = "https://api.spoonacular.com/recipes/findByIngredients"
         params = {
             "ingredients": ingredient_string,
@@ -82,54 +85,17 @@ def search_recipes_spoonacular(ingredients: List[str], limit: int = 10):
         # Get detailed information for each recipe
         detailed_recipes = []
         for recipe_data in recipes_data:
+            # Get recipe details
+            detail_url = f"https://api.spoonacular.com/recipes/{recipe_data['id']}/information"
+            detail_params = {
+                "includeNutrition": True,
+                "apiKey": SPOONACULAR_API_KEY
+            }
+            
             try:
-                # Get recipe details
-                detail_url = f"https://api.spoonacular.com/recipes/{recipe_data['id']}/information"
-                detail_params = {
-                    "includeNutrition": True,
-                    "apiKey": SPOONACULAR_API_KEY
-                }
-                
                 detail_response = requests.get(detail_url, params=detail_params)
                 detail_response.raise_for_status()
                 detail_data = detail_response.json()
-                
-                # Extract steps from instructions
-                steps = []
-                if "analyzedInstructions" in detail_data and detail_data["analyzedInstructions"]:
-                    for instruction in detail_data["analyzedInstructions"][0].get("steps", []):
-                        steps.append(instruction["step"])
-                
-                # Convert ingredients
-                ingredients_list = []
-                for ingredient in detail_data.get("extendedIngredients", []):
-                    ingredients_list.append(Ingredient(
-                        name=ingredient["name"],
-                        quantity=ingredient.get("amount"),
-                        unit=ingredient.get("unit")
-                    ))
-                
-                # Extract nutrition data
-                nutrition = None
-                if "nutrition" in detail_data and "nutrients" in detail_data["nutrition"]:
-                    nutrients = detail_data["nutrition"]["nutrients"]
-                    # Find calories (usually the first nutrient)
-                    kcal = None
-                    protein = None
-                    carbs = None
-                    fat = None
-                    
-                    for nutrient in nutrients:
-                        if nutrient["name"] == "Calories":
-                            kcal = int(nutrient["amount"]) if nutrient["amount"] else None
-                        elif nutrient["name"] == "Protein":
-                            protein = int(nutrient["amount"]) if nutrient["amount"] else None
-                        elif nutrient["name"] == "Carbohydrates":
-                            carbs = int(nutrient["amount"]) if nutrient["amount"] else None
-                        elif nutrient["name"] == "Fat":
-                            fat = int(nutrient["amount"]) if nutrient["amount"] else None
-                
-                    nutrition = Nutrition(kcal=kcal, protein=protein, carbs=carbs, fat=fat)
                 
                 # Convert to our format
                 recipe = Recipe(
@@ -140,9 +106,17 @@ def search_recipes_spoonacular(ingredients: List[str], limit: int = 10):
                     timeMinutes=detail_data.get("readyInMinutes"),
                     servings=detail_data.get("servings"),
                     dietTags=detail_data.get("diets", []),
-                    ingredients=ingredients_list,
-                    steps=steps,
-                    nutritionPerServing=nutrition,
+                    ingredients=[
+                        Ingredient(
+                            name=ingredient["name"],
+                            quantity=ingredient.get("amount"),
+                            unit=ingredient.get("unit")
+                        ) for ingredient in detail_data.get("extendedIngredients", [])
+                    ],
+                    steps=detail_data.get("analyzedInstructions", [{}])[0].get("steps", []),
+                    nutritionPerServing=Nutrition(
+                        kcal=detail_data.get("nutrition", {}).get("nutrients", [{}])[0].get("amount") if detail_data.get("nutrition", {}).get("nutrients") else None
+                    ) if detail_data.get("nutrition") else None,
                     keywords=detail_data.get("dishTypes", []),
                     imageUrl=detail_data.get("image")
                 )
