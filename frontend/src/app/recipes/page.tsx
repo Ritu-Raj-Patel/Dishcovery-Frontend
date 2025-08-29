@@ -67,17 +67,12 @@ export default function RecipePage() {
     try {
       const request = {
         ingredients,
-        filters: {
-          diet: filters.diet.length > 0 ? filters.diet : undefined,
-          difficulty: filters.difficulty !== null ? filters.difficulty : undefined,
-          maxTime: filters.maxTime,
-          servings: servings
-        },
         limit: filters.limit,
-        page: filters.page
       };
       
+      console.log("Making API request:", request);
       const searchResults = await searchRecipes(request);
+      console.log("Received API response:", searchResults);
       setResults(searchResults);
     } catch (err) {
       setError("Failed to search recipes. Please try again.");
@@ -155,12 +150,20 @@ export default function RecipePage() {
             </div>
           ) : results.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {results.map((scoredRecipe) => (
-                <RecipeCard 
-                  key={scoredRecipe.recipe.id} 
-                  scoredRecipe={scoredRecipe} 
-                />
-              ))}
+              {results.map((scoredRecipe, index) => {
+                // Check if scoredRecipe is valid
+                if (!scoredRecipe || !scoredRecipe.recipe || !scoredRecipe.recipe.id) {
+                  console.warn("Invalid recipe data encountered at index:", index, scoredRecipe);
+                  return null; // Skip rendering invalid recipes
+                }
+                
+                return (
+                  <RecipeCard 
+                    key={scoredRecipe.recipe.id} 
+                    scoredRecipe={scoredRecipe} 
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="bg-white rounded-lg shadow-md p-8 text-center">

@@ -36,6 +36,7 @@ export async function recognizeImage(file: File): Promise<RecognizeResponse> {
  */
 export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe[]> {
   try {
+    console.log("Sending request to backend:", request);
     const response = await fetch(`${BASE_URL}/recipes/search`, {
       method: "POST",
       headers: {
@@ -44,13 +45,15 @@ export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe
       body: JSON.stringify(request),
     });
 
+    console.log("Received response from backend:", response.status, response.statusText);
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    // Handle both direct array and paginated response formats
-    return Array.isArray(data) ? data : (data.results || []);
+    console.log("Parsed response data:", data);
+    return data;
   } catch (error) {
     console.error("Error searching recipes:", error);
     return [];

@@ -5,10 +5,14 @@ from typing import List, Optional
 import os
 import json
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 from lib.models import Recipe, RecognizeResponse, MatchRequest, ScoredRecipe
 from lib.normalize import canon, dedupe, SYNONYMS
-from lib.matching import score_recipe, apply_filters, paginate
 from lib.gemini_ing import extract_ingredients_from_bytes
+from lib.gemini_recipes import search_recipes_gemini, format_recipe_for_frontend
 
 app = FastAPI(title="Recipe Recommendation API", version="1.0.0")
 
@@ -22,31 +26,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global recipes storage
+@app.get("/test")
+def test_endpoint():
+    return {"message": "Main server working"}
+
+# Global recipes storage (no longer used since we're using Gemini API)
 recipes: List[Recipe] = []
 
-# Load recipes on startup
+# Load recipes on startup (no longer needed)
 @app.on_event("startup")
 async def load_recipes():
     """Load recipes from data file on startup"""
     global recipes
-    try:
-        # Try to load from data/recipes.json
-        with open("data/recipes.json", "r") as f:
-            recipes_data = json.load(f)
-            recipes = [Recipe(**recipe) for recipe in recipes_data]
-        print(f"Loaded {len(recipes)} recipes")
-    except FileNotFoundError:
-        print("No recipes data file found. Starting with empty recipe list.")
-        recipes = []
-    except Exception as e:
-        print(f"Error loading recipes: {e}")
-        recipes = []
+    print("Note: Not loading local recipes since we're using Gemini API")
+    recipes = []
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"ok": True, "recipes": len(recipes)}
+    return {"status": "ok", "using": "Gemini API"}
 
 @app.post("/recognize", response_model=RecognizeResponse)
 async def recognize_ingredients(
@@ -83,36 +81,45 @@ async def recognize_ingredients(
     except Exception as e:
         return RecognizeResponse(ingredients=[], error=str(e))
 
-@app.post("/recipes/search", response_model=List[ScoredRecipe])
+@app.post("/recipes/search")
 async def search_recipes(request: MatchRequest):
     """
-    Search for recipes based on available ingredients and filters.
+    Search for recipes based on available ingredients and filters using Gemini API.
     """
-    # Score all recipes
-    scored_recipes = []
-    for recipe in recipes:
-        # Apply hard filters first
-        if request.filters and not apply_filters(recipe, request.filters):
-            continue
-            
-        # Score the recipe
-        score = score_recipe(recipe, request.ingredients)
-        scored_recipes.append(ScoredRecipe(recipe=recipe, score=score))
-    
-    # Sort by score (descending)
-    scored_recipes.sort(key=lambda x: x.score, reverse=True)
-    
-    # Paginate results
-    paginated = paginate(scored_recipes, request.page or 1, request.limit or 20)
-    
-    return paginated
+    print("SEARCH ENDPOINT CALLED")
+    print(f"Received search request: {request}")
+    try:
+        # Search for recipes using Gemini
+        filters_dict = None
+        if request.filters:
+            # Convert Pydantic model to dict
+            filters_dict = request.filters.dict(exclude_unset=True)
+        
+        print(f"Searching for recipes with ingredients: {request.ingredients} and filters: {filters_dict}")
+        recipes = search_recipes_gemini(request.ingredients, filters_dict)
+        print(f"Found {len(recipes)} recipes from Gemini")
+        
+        # Format recipes for frontend
+        scored_recipes = [format_recipe_for_frontend(recipe) for recipe in recipes]
+        print(f"Formatted {len(scored_recipes)} scored recipes")
+        
+        # Paginate results
+        paginated = paginate(scored_recipes, request.page or 1, request.limit or 20)
+        print(f"Returning {len(paginated)} paginated recipes")
+        
+        # Return direct array
+        return paginated
+    except Exception as e:
+        print(f"Error in search_recipes: {e}")
+        import traceback
+        traceback.print_exc()
+        # Return empty array in case of error
+        return []
 
 @app.get("/recipes/{recipe_id}", response_model=Recipe)
 async def get_recipe(recipe_id: str):
     """
     Get a single recipe by ID.
+    Note: This endpoint is not implemented for Gemini API version.
     """
-    for recipe in recipes:
-        if recipe.id == recipe_id:
-            return recipe
     raise HTTPException(status_code=404, detail="Recipe not found")

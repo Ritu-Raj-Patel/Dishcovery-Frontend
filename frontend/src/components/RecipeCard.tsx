@@ -5,7 +5,24 @@ interface RecipeCardProps {
 }
 
 export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
+  // Check if scoredRecipe is valid
+  if (!scoredRecipe || !scoredRecipe.recipe) {
+    console.warn("Invalid scoredRecipe data:", scoredRecipe);
+    return null;
+  }
+  
   const { recipe, score } = scoredRecipe;
+  
+  // Additional checks for required recipe properties
+  if (!recipe.id || !recipe.title) {
+    console.warn("Recipe missing required properties:", recipe);
+    return null;
+  }
+  
+  // Ensure recipe has required arrays
+  const safeDietTags = Array.isArray(recipe.dietTags) ? recipe.dietTags : [];
+  const safeIngredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+  const safeSteps = Array.isArray(recipe.steps) ? recipe.steps : [];
   
   // Format time
   const formatTime = (minutes: number) => {
@@ -19,6 +36,8 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
   
   // Get nutrition info (handle both old and new formats)
   const getCalories = () => {
+    if (!recipe.nutritionPerServing) return 0;
+    
     if ('kcal' in recipe.nutritionPerServing) {
       return (recipe.nutritionPerServing as any).kcal;
     }
@@ -47,12 +66,12 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
         </div>
         
         <div className="flex flex-wrap gap-1 mb-3">
-          {recipe.dietTags.map((tag) => (
+          {safeDietTags.map((tag) => (
             <span 
               key={tag} 
               className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded"
             >
-              {tag.replace("_", " ")}
+              {tag?.replace("_", " ")}
             </span>
           ))}
         </div>

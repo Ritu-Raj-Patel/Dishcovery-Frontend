@@ -14,10 +14,8 @@ export type Difficulty = "easy" | "medium" | "hard";
 // Recipe ingredient with quantity and optional substitutes
 export interface Ingredient {
   name: string;
-  quantity?: number;
-  unit?: string;
-  optional?: boolean;
-  substitutes?: string[];
+  quantity: number;
+  unit: string;
 }
 
 // Nutritional information per serving
@@ -49,20 +47,10 @@ export interface RecognizeResponse {
   error?: string;
 }
 
-// Filters for recipe matching
-export interface MatchFilters {
-  diet?: Diet[];
-  difficulty?: Difficulty;
-  maxTime?: number;
-  servings?: number;
-}
-
 // Request for recipe matching
 export interface MatchRequest {
   ingredients: string[];
-  filters?: MatchFilters;
   limit?: number;
-  page?: number;
 }
 
 // Recipe with matching score
