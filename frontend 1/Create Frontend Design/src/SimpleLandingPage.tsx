@@ -7,6 +7,7 @@ import cheeseImage from './assets/b340368e1324741f9ee24027dcd9fe98788ff092.png';
 import dishcoveryImage from './assets/image.png';
 import bowlImage from './assets/2e9da307aa8c3ad245a3f0badf9c0dd936406945.png';
 import newBowlImage from './assets/image copy.png';
+import newKiwiImage from './assets/image copy 2.png';
 
 const SimpleLandingPage: React.FC = () => {
   const handleIngredientClick = (ingredient: string) => {
@@ -24,8 +25,25 @@ const SimpleLandingPage: React.FC = () => {
       backgroundColor: '#f89bc2', 
       minHeight: '100vh',
       padding: '20px',
-      fontFamily: 'Arial, sans-serif'
+      fontFamily: 'Arial, sans-serif',
+      position: 'relative'
     }}>
+      {/* Decorative SVG at Top Left */}
+      <svg 
+        width="1497" 
+        height="942" 
+        viewBox="0 0 1497 942" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          zIndex: 0
+        }}
+      >
+        <path d="M0 0H1497V0C1497 36.2294 1471.21 67.3272 1435.61 74.0296L1346.3 90.8418C1271.15 104.989 1221.86 177.582 1236.43 252.651V252.651C1249.72 321.142 1209.77 388.772 1143.37 410.186L1103.24 423.126C1037.84 444.218 995.131 507.06 999.598 575.637L1001.56 605.794C1006.62 683.425 951.487 752.038 874.588 763.815L775.173 779.041C747.604 783.263 721.759 795.088 700.539 813.187L592.016 905.751C543.986 946.718 475.448 953.229 420.564 922.04L301.183 854.2C263.911 833.02 218.199 833.212 181.107 854.704V854.704C100.687 901.302 0 843.274 0 750.33V0Z" fill="#FF4F99" fillOpacity="0.75"/>
+      </svg>
       {/* Navigation */}
       <nav style={{ 
         display: 'flex', 
@@ -91,9 +109,9 @@ const SimpleLandingPage: React.FC = () => {
       {/* Main Content */}
       <div style={{ 
         textAlign: 'center',
-        marginTop: '150px',
+        marginTop: '55px',
         position: 'relative',
-        marginLeft: '-950px'
+        marginLeft: '-1000px'
       }}>
         <div style={{ 
           width: '508px',
@@ -131,22 +149,46 @@ const SimpleLandingPage: React.FC = () => {
           margin: '50px auto',
           maxWidth: '600px'
         }}>
-          <input
-            type="text"
-            placeholder="Add an ingredient..."
-            style={{
-              padding: '12px 20px',
-              fontSize: '18px',
-              borderRadius: '30px',
-              border: '2px solid #992254',
-              outline: 'none',
-              width: '70%',
-              boxShadow: '0px 5px 10px 0px #992254'
-            }}
-          />
+          <div style={{
+            position: 'relative',
+            width: '70%'
+          }}>
+            <input
+              type="text"
+              placeholder="Add an ingredient..."
+              style={{
+                padding: '12px 60px 12px 20px',
+                fontSize: '18px',
+                borderRadius: '30px',
+                border: '2px solid rgba(153, 34, 84, 0.75)',
+                outline: 'none',
+                width: '100%',
+                boxShadow: '0px 5px 10px 0px #992254'
+              }}
+            />
+            <button
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '5px'
+              }}
+              title="Add ingredient image"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 19V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19Z" stroke="#992254" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="#992254" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M21 15L16 10L5 21" stroke="#992254" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
           <button
             style={{
-              backgroundColor: 'rgba(253,98,163,0.69)',
+              backgroundColor: '#992254',
               color: 'white',
               border: 'none',
               borderRadius: '30px',
@@ -169,6 +211,32 @@ const SimpleLandingPage: React.FC = () => {
           flexWrap: 'wrap'
         }}>
           <button 
+            onMouseEnter={() => {
+              // Spin the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(90deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(90deg)';
+              }
+            }}
+            onMouseLeave={() => {
+              // Reset the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(0deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(0deg)';
+              }
+            }}
             onClick={() => handleIngredientClick('Berries')}
             style={{ 
               width: '130px',
@@ -208,10 +276,10 @@ const SimpleLandingPage: React.FC = () => {
                   height: '120%', 
                   objectFit: 'cover',
                   objectPosition: 'center',
-                  marginLeft: '-8%',
+                  marginLeft: '-10%',
                   marginTop: '-10%',
                   position: 'relative',
-                  left: '7px',
+                  left: '5px',
                   top: '5px'
                 }} 
               />
@@ -219,6 +287,32 @@ const SimpleLandingPage: React.FC = () => {
           </button>
           
           <button 
+            onMouseEnter={() => {
+              // Spin the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(180deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(180deg)';
+              }
+            }}
+            onMouseLeave={() => {
+              // Reset the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(0deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(0deg)';
+              }
+            }}
             onClick={() => handleIngredientClick('Kiwi')}
             style={{ 
               width: '130px',
@@ -251,24 +345,45 @@ const SimpleLandingPage: React.FC = () => {
               overflow: 'hidden'
             }}>
               <img 
-                src={kiwiImage} 
-                alt="Kiwi" 
+                src={cheeseImage} 
+                alt="Cheese" 
                 style={{ 
-                  width: '120%', 
-                  height: '120%', 
+                  width: '100%', 
+                  height: '100%', 
                   objectFit: 'cover',
-                  objectPosition: 'center',
-                  marginLeft: '-10%',
-                  marginTop: '-10%',
-                  position: 'relative',
-                  left: '7px',
-                  top: '5px'
+                  objectPosition: 'center'
                 }} 
               />
             </div>
           </button>
           
           <button 
+            onMouseEnter={() => {
+              // Spin the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(270deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(270deg)';
+              }
+            }}
+            onMouseLeave={() => {
+              // Reset the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(0deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(0deg)';
+              }
+            }}
             onClick={() => handleIngredientClick('Chocolate')}
             style={{ 
               width: '130px',
@@ -319,6 +434,32 @@ const SimpleLandingPage: React.FC = () => {
           </button>
           
           <button 
+            onMouseEnter={() => {
+              // Spin the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(360deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(360deg)';
+              }
+            }}
+            onMouseLeave={() => {
+              // Reset the table and plates container
+              const tableFrame = document.getElementById('table-frame');
+              const platesContainer = document.getElementById('plates-container');
+              
+              if (tableFrame) {
+                tableFrame.style.transform = 'rotate(0deg)';
+              }
+              
+              if (platesContainer) {
+                platesContainer.style.transform = 'rotate(0deg)';
+              }
+            }}
             onClick={() => handleIngredientClick('Cheese')}
             style={{ 
               width: '130px',
@@ -351,13 +492,18 @@ const SimpleLandingPage: React.FC = () => {
               overflow: 'hidden'
             }}>
               <img 
-                src={cheeseImage} 
-                alt="Cheese" 
+                src={kiwiImage} 
+                alt="Kiwi" 
                 style={{ 
-                  width: '100%', 
-                  height: '100%', 
+                  width: '120%', 
+                  height: '120%', 
                   objectFit: 'cover',
-                  objectPosition: 'center'
+                  objectPosition: 'center',
+                  marginLeft: '-10%',
+                  marginTop: '-10%',
+                  position: 'relative',
+                  left: '7px',
+                  top: '5px'
                 }} 
               />
             </div>
@@ -365,38 +511,134 @@ const SimpleLandingPage: React.FC = () => {
         </div>
       </div>
       
-      {/* Circular Bowl Image at Bottom Right */}
-      <div style={{
-        position: 'fixed',
-        bottom: '-350px',
-        right: '-350px',
-        width: '800px',
-        height: '800px',
-        borderRadius: '50%',
-        backgroundColor: '#FD62A3',
-        zIndex: 4
-      }}></div>
+      {/* Table (bigger circular frame) */}
+      <div 
+        id="table-frame"
+        style={{
+          position: 'fixed',
+          bottom: '-350px',
+          right: '-350px',
+          width: '800px',
+          height: '800px',
+          borderRadius: '50%',
+          backgroundColor: '#FD62A3',
+          zIndex: 4,
+          transition: 'transform 1.5s ease'
+        }}
+      ></div>
       
-      {/* Circular Bowl Image at Bottom Right */}
-      <div style={{
-        position: 'fixed',
-        bottom: '50px',
-        right: '50px',
-        width: '500px',
-        height: '500px',
-        borderRadius: '50%',
-        overflow: 'hidden',
-        zIndex: 5
-      }}>
-        <img 
-          src={newBowlImage} 
-          alt="Bowl" 
-          style={{ 
-            width: '100%', 
-            height: '100%', 
-            objectFit: 'cover'
-          }} 
-        />
+      {/* Plates on the table */}
+      <div 
+        id="plates-container"
+        style={{
+          position: 'fixed',
+          bottom: '50px',
+          right: '50px',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          zIndex: 5,
+          transition: 'transform 1.5s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {/* Plate 1 - Strawberries */}
+        <div 
+          id="plate-1"
+          style={{
+            position: 'absolute',
+            top: '20%',
+            left: '20%',
+            width: '120px',
+            height: '120px',
+            borderRadius: '50%',
+            backgroundColor: '#e74c3c',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '40px',
+            fontWeight: 'bold',
+            color: 'white',
+            boxShadow: '0px 5px 15px rgba(0,0,0,0.3)',
+            transition: 'all 1.5s ease'
+          }}
+        >
+          1
+        </div>
+        
+        {/* Plate 2 - Kiwi */}
+        <div 
+          id="plate-2"
+          style={{
+            position: 'absolute',
+            top: '20%',
+            right: '20%',
+            width: '120px',
+            height: '120px',
+            borderRadius: '50%',
+            backgroundColor: '#27ae60',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '40px',
+            fontWeight: 'bold',
+            color: 'white',
+            boxShadow: '0px 5px 15px rgba(0,0,0,0.3)',
+            transition: 'all 1.5s ease'
+          }}
+        >
+          2
+        </div>
+        
+        {/* Plate 3 - Chocolate */}
+        <div 
+          id="plate-3"
+          style={{
+            position: 'absolute',
+            bottom: '20%',
+            left: '20%',
+            width: '120px',
+            height: '120px',
+            borderRadius: '50%',
+            backgroundColor: '#7d3c98',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '40px',
+            fontWeight: 'bold',
+            color: 'white',
+            boxShadow: '0px 5px 15px rgba(0,0,0,0.3)',
+            transition: 'all 1.5s ease'
+          }}
+        >
+          3
+        </div>
+        
+        {/* Plate 4 - Cheese */}
+        <div 
+          id="plate-4"
+          style={{
+            position: 'absolute',
+            bottom: '20%',
+            right: '20%',
+            width: '120px',
+            height: '120px',
+            borderRadius: '50%',
+            backgroundColor: '#f1c40f',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '40px',
+            fontWeight: 'bold',
+            color: 'white',
+            boxShadow: '0px 5px 15px rgba(0,0,0,0.3)',
+            transition: 'all 1.5s ease'
+          }}
+        >
+          4
+        </div>
       </div>
     </div>
   );
