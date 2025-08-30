@@ -36,7 +36,6 @@ export async function recognizeImage(file: File): Promise<RecognizeResponse> {
  */
 export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe[]> {
   try {
-    console.log("Sending request to backend:", request);
     const response = await fetch(`${BASE_URL}/recipes/search`, {
       method: "POST",
       headers: {
@@ -45,14 +44,11 @@ export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe
       body: JSON.stringify(request),
     });
 
-    console.log("Received response from backend:", response.status, response.statusText);
-    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("Parsed response data:", data);
     return data;
   } catch (error) {
     console.error("Error searching recipes:", error);
@@ -66,21 +62,10 @@ export async function searchRecipes(request: MatchRequest): Promise<ScoredRecipe
  * @returns Promise with recipe details
  */
 export async function getRecipe(id: string): Promise<Recipe | null> {
-  try {
-    const response = await fetch(`${BASE_URL}/recipes/${id}`);
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching recipe:", error);
-    return null;
-  }
+  // For now, we'll return null since our current backend doesn't support single recipe fetching
+  // This would need to be implemented in the backend
+  console.log("Fetching recipe with ID:", id);
+  return null;
 }
 
 /**

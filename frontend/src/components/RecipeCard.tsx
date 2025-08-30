@@ -1,4 +1,5 @@
 import { ScoredRecipe } from "@/types";
+import Link from "next/link";
 
 interface RecipeCardProps {
   scoredRecipe: ScoredRecipe;
@@ -89,11 +90,11 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
           </span>
         </div>
         
-        <p className="text-sm text-gray-600 mb-3">{recipe.cuisine} • {recipe.difficulty}</p>
+        <p className="text-sm text-gray-600 mb-3">{recipe.cuisine || "International"} • {recipe.difficulty}</p>
         
         <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
-          <span>⏱️ {formatTime(recipe.timeMinutes)}</span>
-          <span>🍽️ {recipe.servings} servings</span>
+          <span>⏱️ {formatTime(recipe.timeMinutes || 0)}</span>
+          <span>🍽️ {recipe.servings || 0} servings</span>
           <span>🔥 {Math.round(getCalories())} kcal</span>
         </div>
         
@@ -108,9 +109,12 @@ export default function RecipeCard({ scoredRecipe }: RecipeCardProps) {
           ))}
         </div>
         
-        <button className="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded transition duration-200">
+        <Link 
+          href={`/recipes/${recipe.id}`}
+          className="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded transition duration-200 text-center block"
+        >
           View Recipe
-        </button>
+        </Link>
       </div>
     </div>
   );
