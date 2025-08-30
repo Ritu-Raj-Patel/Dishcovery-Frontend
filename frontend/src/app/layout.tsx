@@ -1,21 +1,9 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
 import { ShoppingListProvider } from "@/contexts/ShoppingListContext";
 import Link from "next/link";
 import { useFavorites } from "@/contexts/FavoritesContext";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata: Metadata = {
   title: "Recipe Recommendation System",
@@ -76,9 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-50`}
-      >
+      <body className="antialiased min-h-screen bg-gray-50">
         <FavoritesProvider>
           <ShoppingListProvider>
             <Navigation />
