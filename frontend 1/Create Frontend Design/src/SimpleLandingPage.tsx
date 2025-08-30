@@ -24,6 +24,108 @@ const SimpleLandingPage: React.FC = () => {
     alert(`Navigating to ${section}`);
   };
 
+  const handleBerryHover = () => {
+    // Change main background color
+    const mainDiv = document.querySelector('div[style*="backgroundColor"]');
+    if (mainDiv) {
+      (mainDiv as HTMLElement).style.backgroundColor = '#F89BC2';
+    }
+    
+    // Change SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#FF4F99');
+    }
+    
+    // Change login button color
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#FD62A3';
+    }
+    
+    // Change all #5B6519 color variants to #992254 with 75% transparency
+    const elementsWithColor = document.querySelectorAll('[style*="#5B6519"]');
+    elementsWithColor.forEach(element => {
+      const currentStyle = (element as HTMLElement).style;
+      // Update border color
+      if (currentStyle.border && currentStyle.border.includes('#5B6519')) {
+        currentStyle.border = '2px solid rgba(153, 34, 84, 0.75)';
+      }
+      // Update boxShadow color
+      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('#5B6519')) {
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#5B6519/g, 'rgba(153, 34, 84, 0.75)');
+      }
+      // Update backgroundColor if it's #5B6519
+      if (currentStyle.backgroundColor === '#5B6519') {
+        currentStyle.backgroundColor = 'rgba(153, 34, 84, 0.75)';
+      }
+      // Update SVG stroke colors
+      const svgElements = element.querySelectorAll('svg path');
+      svgElements.forEach(svgElement => {
+        if (svgElement.getAttribute('stroke') === '#5B6519') {
+          svgElement.setAttribute('stroke', 'rgba(153, 34, 84, 0.75)');
+        }
+      });
+    });
+    
+    // Specifically target the search bar border
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid rgba(153, 34, 84, 0.75)';
+    }
+  };
+
+  const handleBerryLeave = () => {
+    // Revert main background color
+    const mainDiv = document.querySelector('div[style*="backgroundColor"]');
+    if (mainDiv) {
+      (mainDiv as HTMLElement).style.backgroundColor = '#D8DA9D';
+    }
+    
+    // Revert SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#B1C050');
+    }
+    
+    // Revert login button color
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#B1C050';
+    }
+    
+    // Revert all #992254 color variants back to #5B6519
+    const elementsWithColor = document.querySelectorAll('[style*="rgba(153, 34, 84, 0.75)"]');
+    elementsWithColor.forEach(element => {
+      const currentStyle = (element as HTMLElement).style;
+      // Update border color
+      if (currentStyle.border && currentStyle.border.includes('rgba(153, 34, 84, 0.75)')) {
+        currentStyle.border = '2px solid #5B6519';
+      }
+      // Update boxShadow color
+      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('rgba(153, 34, 84, 0.75)')) {
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/rgba\(153, 34, 84, 0\.75\)/g, '#5B6519');
+      }
+      // Update backgroundColor if it's rgba(153, 34, 84, 0.75)
+      if (currentStyle.backgroundColor === 'rgba(153, 34, 84, 0.75)') {
+        currentStyle.backgroundColor = '#5B6519';
+      }
+      // Update SVG stroke colors
+      const svgElements = element.querySelectorAll('svg path');
+      svgElements.forEach(svgElement => {
+        if (svgElement.getAttribute('stroke') === 'rgba(153, 34, 84, 0.75)') {
+          svgElement.setAttribute('stroke', '#5B6519');
+        }
+      });
+    });
+    
+    // Specifically target the search bar border
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid #5B6519';
+    }
+  };
+
   return (
     <div style={{
       backgroundColor: '#D8DA9D',
@@ -232,6 +334,9 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(90deg)';
               }
+              
+              // Add berry hover effects
+              handleBerryHover();
             }}
             onMouseLeave={() => {
               // Reset the table, plates container, and central frame
@@ -250,6 +355,9 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(0deg)';
               }
+              
+              // Remove berry hover effects
+              handleBerryLeave();
             }}
             onClick={() => handleIngredientClick('Berries')}
             style={{
