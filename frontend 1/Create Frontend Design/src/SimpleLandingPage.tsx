@@ -22,6 +22,14 @@ const SimpleLandingPage: React.FC = () => {
   const handleNavClick = (section: string) => {
     console.log(`${section} clicked`);
     alert(`Navigating to ${section}`);
+    
+    // If clicking on Home, remove the frame
+    if (section === 'Home') {
+      const tableContainer = document.getElementById('table-container');
+      if (tableContainer) {
+        tableContainer.style.display = 'none';
+      }
+    }
   };
 
   const handleBerryHover = () => {
@@ -37,16 +45,32 @@ const SimpleLandingPage: React.FC = () => {
       svgPath.setAttribute('fill', '#FF4F99');
     }
     
-    // Change login button color
+    // Change login button color and shadow
     const loginButton = document.querySelector('nav button:last-child');
     if (loginButton) {
       (loginButton as HTMLElement).style.backgroundColor = '#FD62A3';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #992254';
     }
     
-    // Change add button color
-    const addButton = document.querySelector('div[style*="justifyContent"] button:last-child');
+    // Change dishcovery image to pink.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/pink.png');
+    }
+    
+    // Change add button color and shadow (target button with text "Add")
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
     if (addButton) {
       (addButton as HTMLElement).style.backgroundColor = '#992254';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #992254';
+    }
+    
+    // Change search button shadow (the button with the camera icon)
+    const searchButton = document.querySelector('div[style*="position: relative"] button');
+    if (searchButton) {
+      (searchButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #992254';
     }
     
     // Change all #5B6519 color variants to #992254 with 75% transparency
@@ -74,10 +98,11 @@ const SimpleLandingPage: React.FC = () => {
       });
     });
     
-    // Specifically target the search bar border
+    // Specifically target the search bar border and shadow
     const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
     if (searchInput) {
       searchInput.style.border = '2px solid rgba(153, 34, 84, 0.75)';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #992254';
     }
     
     // Update ingredient button shadows
@@ -100,16 +125,32 @@ const SimpleLandingPage: React.FC = () => {
       svgPath.setAttribute('fill', '#B1C050');
     }
     
-    // Revert login button color
+    // Revert login button color and shadow
     const loginButton = document.querySelector('nav button:last-child');
     if (loginButton) {
       (loginButton as HTMLElement).style.backgroundColor = '#B1C050';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #5B6519';
     }
     
-    // Revert add button color
-    const addButton = document.querySelector('div[style*="justifyContent"] button:last-child');
-    if (addButton) {
+    // Revert dishcovery image to green.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/green.png');
+    }
+    
+    // Revert add button color and shadow (target button with text "Add")
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
+    if (addButton && (addButton as HTMLElement).style.backgroundColor === 'rgb(153, 34, 84)') {
       (addButton as HTMLElement).style.backgroundColor = '#5B6519';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #5B6519';
+    }
+    
+    // Revert search button shadow (the button with the camera icon)
+    const searchButton = document.querySelector('div[style*="position: relative"] button');
+    if (searchButton) {
+      (searchButton as HTMLElement).style.boxShadow = 'none';
     }
     
     // Revert all #992254 color variants back to #5B6519
@@ -138,10 +179,11 @@ const SimpleLandingPage: React.FC = () => {
       });
     });
     
-    // Specifically target the search bar border
+    // Specifically target the search bar border and shadow
     const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
     if (searchInput) {
       searchInput.style.border = '2px solid #5B6519';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #5B6519';
     }
     
     // Revert ingredient button shadows
