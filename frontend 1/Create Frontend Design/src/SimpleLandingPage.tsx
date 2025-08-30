@@ -43,6 +43,12 @@ const SimpleLandingPage: React.FC = () => {
       (loginButton as HTMLElement).style.backgroundColor = '#FD62A3';
     }
     
+    // Change add button color
+    const addButton = document.querySelector('div[style*="justifyContent"] button:last-child');
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#992254';
+    }
+    
     // Change all #5B6519 color variants to #992254 with 75% transparency
     const elementsWithColor = document.querySelectorAll('[style*="#5B6519"]');
     elementsWithColor.forEach(element => {
@@ -53,7 +59,7 @@ const SimpleLandingPage: React.FC = () => {
       }
       // Update boxShadow color
       if (currentStyle.boxShadow && currentStyle.boxShadow.includes('#5B6519')) {
-        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#5B6519/g, 'rgba(153, 34, 84, 0.75)');
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#5B6519/g, '#992254');
       }
       // Update backgroundColor if it's #5B6519
       if (currentStyle.backgroundColor === '#5B6519') {
@@ -73,6 +79,12 @@ const SimpleLandingPage: React.FC = () => {
     if (searchInput) {
       searchInput.style.border = '2px solid rgba(153, 34, 84, 0.75)';
     }
+    
+    // Update ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #992254';
+    });
   };
 
   const handleBerryLeave = () => {
@@ -94,8 +106,14 @@ const SimpleLandingPage: React.FC = () => {
       (loginButton as HTMLElement).style.backgroundColor = '#B1C050';
     }
     
+    // Revert add button color
+    const addButton = document.querySelector('div[style*="justifyContent"] button:last-child');
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#5B6519';
+    }
+    
     // Revert all #992254 color variants back to #5B6519
-    const elementsWithColor = document.querySelectorAll('[style*="rgba(153, 34, 84, 0.75)"]');
+    const elementsWithColor = document.querySelectorAll('[style*="rgba(153, 34, 84, 0.75)"], [style*="#992254"]');
     elementsWithColor.forEach(element => {
       const currentStyle = (element as HTMLElement).style;
       // Update border color
@@ -103,8 +121,9 @@ const SimpleLandingPage: React.FC = () => {
         currentStyle.border = '2px solid #5B6519';
       }
       // Update boxShadow color
-      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('rgba(153, 34, 84, 0.75)')) {
+      if (currentStyle.boxShadow && (currentStyle.boxShadow.includes('rgba(153, 34, 84, 0.75)') || currentStyle.boxShadow.includes('#992254'))) {
         currentStyle.boxShadow = currentStyle.boxShadow.replace(/rgba\(153, 34, 84, 0\.75\)/g, '#5B6519');
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#992254/g, '#5B6519');
       }
       // Update backgroundColor if it's rgba(153, 34, 84, 0.75)
       if (currentStyle.backgroundColor === 'rgba(153, 34, 84, 0.75)') {
@@ -124,6 +143,12 @@ const SimpleLandingPage: React.FC = () => {
     if (searchInput) {
       searchInput.style.border = '2px solid #5B6519';
     }
+    
+    // Revert ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #5B6519';
+    });
   };
 
   return (
