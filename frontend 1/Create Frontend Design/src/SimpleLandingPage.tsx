@@ -45,6 +45,12 @@ const SimpleLandingPage: React.FC = () => {
       svgPath.setAttribute('fill', '#FF4F99');
     }
     
+    // Change table-frame color to pink
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#FD62A3';
+    }
+    
     // Change login button color and shadow
     const loginButton = document.querySelector('nav button:last-child');
     if (loginButton) {
@@ -123,6 +129,12 @@ const SimpleLandingPage: React.FC = () => {
     const svgPath = document.querySelector('svg path');
     if (svgPath) {
       svgPath.setAttribute('fill', '#B1C050');
+    }
+    
+    // Revert table-frame color to green
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#B1C050';
     }
     
     // Revert login button color and shadow
@@ -756,7 +768,7 @@ const SimpleLandingPage: React.FC = () => {
             width: '800px',
             height: '800px',
             borderRadius: '50%',
-            backgroundColor: '#FD62A3',
+            backgroundColor: '#B1C050',
             zIndex: 3,
             transition: 'transform 1.5s ease'
           }}
@@ -773,8 +785,8 @@ const SimpleLandingPage: React.FC = () => {
             width: '400px',
             height: '400px',
             borderRadius: '50%',
-            backgroundColor: '#FD62A3',
-            zIndex: 5,
+            backgroundColor: 'transparent',
+            zIndex: -1,
             transition: 'transform 1.5s ease',
             display: 'flex',
             alignItems: 'center',
