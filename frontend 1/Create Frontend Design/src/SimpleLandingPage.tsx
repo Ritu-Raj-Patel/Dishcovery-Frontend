@@ -26,7 +26,7 @@ const SimpleLandingPage: React.FC = () => {
 
   const handleBerryHover = () => {
     // Change main background color
-    const mainDiv = document.querySelector('div[style*="backgroundColor"]') as HTMLElement;
+    const mainDiv = document.getElementById('main-container');
     if (mainDiv) {
       mainDiv.style.backgroundColor = '#F89BC2';
     }
@@ -77,7 +77,7 @@ const SimpleLandingPage: React.FC = () => {
 
   const handleBerryLeave = () => {
     // Revert main background color
-    const mainDiv = document.querySelector('div[style*="backgroundColor"]') as HTMLElement;
+    const mainDiv = document.getElementById('main-container');
     if (mainDiv) {
       mainDiv.style.backgroundColor = '#D8DA9D';
     }
@@ -127,7 +127,7 @@ const SimpleLandingPage: React.FC = () => {
   };
 
   return (
-    <div style={{
+    <div id="main-container" style={{
       backgroundColor: '#D8DA9D',
       minHeight: '100vh',
       padding: '20px',
