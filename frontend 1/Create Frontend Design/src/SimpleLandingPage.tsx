@@ -62,7 +62,7 @@ const SimpleLandingPage: React.FC = () => {
       button.textContent && button.textContent.trim() === 'Add'
     );
     if (addButton) {
-      (addButton as HTMLElement).style.backgroundColor = '#EB7F18';
+      (addButton as HTMLElement).style.backgroundColor = '#B05803';
       (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #B05803';
     }
     
@@ -149,6 +149,118 @@ const SimpleLandingPage: React.FC = () => {
         currentStyle.boxShadow = currentStyle.boxShadow.replace(/#B05803/g, '#5B6519');
       }
     });
+    
+    // Revert ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #5B6519';
+    });
+  };
+
+  const handleChocolateHover = () => {
+    console.log("Applying chocolate hover effects");
+    // Change main background color
+    const mainDiv = document.getElementById('main-container');
+    if (mainDiv) {
+      mainDiv.style.backgroundColor = '#936B60';
+    }
+    
+    // Change SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#542315');
+    }
+    
+    // Change dishcovery image to brown.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/brown.png');
+    }
+    
+    // Change table-frame color
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#542315';
+    }
+    
+    // Change login button color and shadow
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#542315';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #542315';
+    }
+    
+    // Change add button color and shadow
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#542315';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #542315';
+    }
+    
+    // Change search bar border and shadow
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid rgba(84, 35, 21, 0.75)';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #542315';
+    }
+    
+    // Update ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #542315';
+    });
+  };
+
+  const handleChocolateLeave = () => {
+    console.log("Removing chocolate hover effects");
+    // Revert main background color
+    const mainDiv = document.getElementById('main-container');
+    if (mainDiv) {
+      mainDiv.style.backgroundColor = '#D8DA9D';
+    }
+    
+    // Revert SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#B1C050');
+    }
+    
+    // Revert dishcovery image to green.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/green.png');
+    }
+    
+    // Revert table-frame color
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#B1C050';
+    }
+    
+    // Revert login button color and shadow
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#B1C050';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #5B6519';
+    }
+    
+    // Revert add button color and shadow
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#5B6519';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #5B6519';
+    }
+    
+    // Revert search bar border and shadow
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid #5B6519';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #5B6519';
+    }
     
     // Revert ingredient button shadows
     const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
@@ -723,6 +835,7 @@ const SimpleLandingPage: React.FC = () => {
 
           <button
             onMouseEnter={() => {
+              console.log("Chocolate button hovered - applying chocolate effects");
               // Spin the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -739,8 +852,12 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(270deg)';
               }
+              
+              // Add chocolate hover effects
+              handleChocolateHover();
             }}
             onMouseLeave={() => {
+              console.log("Chocolate button unhovered - removing chocolate effects");
               // Reset the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -757,6 +874,9 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(0deg)';
               }
+              
+              // Remove chocolate hover effects
+              handleChocolateLeave();
             }}
             onClick={() => handleIngredientClick('Chocolate')}
             style={{
