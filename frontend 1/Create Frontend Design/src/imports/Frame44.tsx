@@ -19,7 +19,7 @@ function Frame16() {
   return (
     <button 
       onClick={handleContactClick}
-      className="absolute bg-[rgba(253,98,163,0.69)] h-[52px] left-[1486px] overflow-clip rounded-[40px] shadow-[0px_10px_15px_0px_#992254] top-[52px] w-[181px] hover:bg-[rgba(253,98,163,0.85)] transition-colors cursor-pointer"
+      className="absolute bg-[rgba(253,98,163,0.69)] h-[52px] left-[1486px] overflow-clip rounded-[40px] shadow-[0px_10px_15px_0px_#5B6519] top-[52px] w-[181px] hover:bg-[rgba(253,98,163,0.85)] transition-colors cursor-pointer"
     >
       <div className="absolute font-['Arial:Regular',_sans-serif] leading-[0] not-italic text-[22px] text-nowrap text-right text-white tracking-[1.1px] translate-x-[-100%]" style={{ top: "calc(50% - 11px)", left: "calc(50% + 76.5px)" }}>
         <p className="leading-[20px] whitespace-pre">CONTACT US</p>
@@ -29,7 +29,7 @@ function Frame16() {
 }
 
 function Frame45() {
-  return <div className="absolute bg-[rgba(255,255,255,0.81)] h-1.5 left-[115px] rounded-[10px] shadow-[0px_10px_15px_0px_#992254] top-[844px] w-[105px]" />;
+  return <div className="absolute bg-[rgba(255,255,255,0.81)] h-1.5 left-[115px] rounded-[10px] shadow-[0px_10px_15px_0px_#5B6519] top-[844px] w-[105px]" />;
 }
 
 function Group2() {
@@ -80,7 +80,7 @@ export default function Frame44() {
       </div>
       <div className="absolute flex h-[114.086px] items-center justify-center left-[420.2px] top-[219.1px] w-[93.04px]">
         <div className="flex-none rotate-[25.513deg]">
-          <div className="bg-[71.9%_0%] bg-no-repeat bg-size-[312.5%_173.08%] h-[100px] shadow-[0px_10px_16px_0px_#992254] w-[55.385px]" data-name="effects 1" style={{ backgroundImage: `url('${imgEffects1}')` }} />
+          <div className="bg-[71.9%_0%] bg-no-repeat bg-size-[312.5%_173.08%] h-[100px] shadow-[0px_10px_16px_0px_#5B6519] w-[55.385px]" data-name="effects 1" style={{ backgroundImage: `url('${imgEffects1}')` }} />
         </div>
       </div>
       <div className="absolute h-[1182px] left-0 top-0 w-[1347px]">
@@ -92,7 +92,7 @@ export default function Frame44() {
       </div>
       <div className="absolute flex h-[113.942px] items-center justify-center left-[349px] top-[224.59px] w-[102.428px]">
         <div className="flex-none rotate-[325.576deg]">
-          <div className="bg-[27.5%_-13.49%] bg-no-repeat bg-size-[271.08%_150.86%] h-[100px] shadow-[0px_10px_16px_0px_#992254] w-[55.652px]" data-name="effects 3" style={{ backgroundImage: `url('${imgEffects1}')` }} />
+          <div className="bg-[27.5%_-13.49%] bg-no-repeat bg-size-[271.08%_150.86%] h-[100px] shadow-[0px_10px_16px_0px_#5B6519] w-[55.652px]" data-name="effects 3" style={{ backgroundImage: `url('${imgEffects1}')` }} />
         </div>
       </div>
       <button 
@@ -123,7 +123,7 @@ export default function Frame44() {
       <div className="absolute bg-[0%_84.07%] bg-no-repeat bg-size-[100%_397.37%] h-32 left-[146px] shadow-[0px_10px_16px_0px_rgba(0,0,0,0.25)] top-[293px] w-[508px]" data-name="logo1 2" style={{ backgroundImage: `url('${imgLogo12}')` }} />
       <button 
         onClick={() => console.log("Cheese ingredient clicked")}
-        className="absolute bg-center bg-cover bg-no-repeat left-[581px] rounded-[5000px] shadow-[0px_15px_25px_0px_#992254] size-[146px] top-[674px] hover:scale-105 transition-transform cursor-pointer" 
+        className="absolute bg-center bg-cover bg-no-repeat left-[581px] rounded-[5000px] shadow-[0px_15px_25px_0px_#5B6519] size-[146px] top-[674px] hover:scale-105 transition-transform cursor-pointer" 
         data-name="cheeze 2" 
         style={{ backgroundImage: `url('${imgCheeze2}')` }}
         title="Cheese ingredient"
@@ -147,7 +147,7 @@ export default function Frame44() {
         style={{ backgroundImage: `url('${imgBerries1}')` }}
         title="Berries ingredient"
       >
-        <div aria-hidden="true" className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[5000px] shadow-[0px_15px_25px_0px_#992254]" />
+        <div aria-hidden="true" className="absolute border border-black border-solid inset-0 pointer-events-none rounded-[5000px] shadow-[0px_15px_25px_0px_#5B6519]" />
       </button>
       <button 
         onClick={() => console.log("Chocolate ingredient clicked")}
