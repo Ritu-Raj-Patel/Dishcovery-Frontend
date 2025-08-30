@@ -22,17 +22,143 @@ const SimpleLandingPage: React.FC = () => {
   const handleNavClick = (section: string) => {
     console.log(`${section} clicked`);
     alert(`Navigating to ${section}`);
-    
-    // If clicking on Home, remove the frame
-    if (section === 'Home') {
-      const tableContainer = document.getElementById('table-container');
-      if (tableContainer) {
-        tableContainer.style.display = 'none';
-      }
+  };
+
+  const handleKiwiHover = () => {
+    console.log("Applying kiwi hover effects");
+    // Change main background color
+    const mainDiv = document.getElementById('main-container');
+    if (mainDiv) {
+      mainDiv.style.backgroundColor = '#EB9D54';
     }
+    
+    // Change SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#EB7F18');
+    }
+    
+    // Change dishcovery image to orange.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/orange.png');
+    }
+    
+    // Change table-frame color
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#EB7F18';
+    }
+    
+    // Change login button color and shadow
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#EB7F18';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #B05803';
+    }
+    
+    // Change add button color and shadow
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#EB7F18';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #B05803';
+    }
+    
+    // Change search bar border and shadow
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid #B05803';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #B05803';
+    }
+    
+    // Change all other shadows to B05803
+    const elementsWithShadow = document.querySelectorAll('[style*="boxShadow"]');
+    elementsWithShadow.forEach(element => {
+      const currentStyle = (element as HTMLElement).style;
+      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('#5B6519')) {
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#5B6519/g, '#B05803');
+      }
+      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('#992254')) {
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#992254/g, '#B05803');
+      }
+    });
+    
+    // Update ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #B05803';
+    });
+  };
+
+  const handleKiwiLeave = () => {
+    console.log("Removing kiwi hover effects");
+    // Revert main background color
+    const mainDiv = document.getElementById('main-container');
+    if (mainDiv) {
+      mainDiv.style.backgroundColor = '#D8DA9D';
+    }
+    
+    // Revert SVG background color
+    const svgPath = document.querySelector('svg path');
+    if (svgPath) {
+      svgPath.setAttribute('fill', '#B1C050');
+    }
+    
+    // Revert dishcovery image to green.png
+    const dishcoveryImage = document.querySelector('img[alt="Dishcovery"]');
+    if (dishcoveryImage) {
+      dishcoveryImage.setAttribute('src', '/src/assets/green.png');
+    }
+    
+    // Revert table-frame color
+    const tableFrame = document.getElementById('table-frame');
+    if (tableFrame) {
+      (tableFrame as HTMLElement).style.backgroundColor = '#B1C050';
+    }
+    
+    // Revert login button color and shadow
+    const loginButton = document.querySelector('nav button:last-child');
+    if (loginButton) {
+      (loginButton as HTMLElement).style.backgroundColor = '#B1C050';
+      (loginButton as HTMLElement).style.boxShadow = '0px 10px 15px 0px #5B6519';
+    }
+    
+    // Revert add button color and shadow
+    const addButton = Array.from(document.querySelectorAll('button')).find(button => 
+      button.textContent && button.textContent.trim() === 'Add'
+    );
+    if (addButton) {
+      (addButton as HTMLElement).style.backgroundColor = '#5B6519';
+      (addButton as HTMLElement).style.boxShadow = '0px 5px 10px 0px #5B6519';
+    }
+    
+    // Revert search bar border and shadow
+    const searchInput = document.querySelector('input[placeholder="Add an ingredient..."]') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.style.border = '2px solid #5B6519';
+      searchInput.style.boxShadow = '0px 5px 10px 0px #5B6519';
+    }
+    
+    // Revert all shadows back to original
+    const elementsWithShadow = document.querySelectorAll('[style*="boxShadow"]');
+    elementsWithShadow.forEach(element => {
+      const currentStyle = (element as HTMLElement).style;
+      if (currentStyle.boxShadow && currentStyle.boxShadow.includes('#B05803')) {
+        currentStyle.boxShadow = currentStyle.boxShadow.replace(/#B05803/g, '#5B6519');
+      }
+    });
+    
+    // Revert ingredient button shadows
+    const ingredientButtons = document.querySelectorAll('button[title*="ingredient"]');
+    ingredientButtons.forEach(button => {
+      (button as HTMLElement).style.boxShadow = '0px 15px 25px 0px #5B6519';
+    });
   };
 
   const handleBerryHover = () => {
+    console.log("Applying berry hover effects");
     // Change main background color
     const mainDiv = document.getElementById('main-container');
     if (mainDiv) {
@@ -119,6 +245,7 @@ const SimpleLandingPage: React.FC = () => {
   };
 
   const handleBerryLeave = () => {
+    console.log("Removing berry hover effects");
     // Revert main background color
     const mainDiv = document.getElementById('main-container');
     if (mainDiv) {
@@ -129,6 +256,16 @@ const SimpleLandingPage: React.FC = () => {
     const svgPath = document.querySelector('svg path');
     if (svgPath) {
       svgPath.setAttribute('fill', '#B1C050');
+    }
+    
+    // Restore the Home button appearance
+    const homeButton = document.getElementById('home-nav-button');
+    if (homeButton) {
+      homeButton.style.color = 'black';
+      homeButton.style.backgroundColor = 'transparent';
+      homeButton.style.border = 'none';
+      homeButton.style.cursor = 'pointer';
+      homeButton.style.pointerEvents = 'auto';
     }
     
     // Revert table-frame color to green
@@ -261,7 +398,13 @@ const SimpleLandingPage: React.FC = () => {
 
         <div style={{ display: 'flex', gap: '50px', marginLeft: 'auto' }}>
           <button
+            id="home-nav-button"
             onClick={() => handleNavClick('Home')}
+            onMouseEnter={() => {
+              console.log("Home button hovered - removing berry effects");
+              // Remove berry hover effects when hovering over Home
+              handleBerryLeave();
+            }}
             style={{ fontSize: '28px', background: 'none', border: 'none', cursor: 'pointer' }}
           >
             Home
@@ -397,6 +540,7 @@ const SimpleLandingPage: React.FC = () => {
         }}>
           <button
             onMouseEnter={() => {
+              console.log("Berries button hovered - applying berry effects");
               // Spin the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -418,6 +562,7 @@ const SimpleLandingPage: React.FC = () => {
               handleBerryHover();
             }}
             onMouseLeave={() => {
+              console.log("Berries button unhovered - removing berry effects");
               // Reset the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -489,6 +634,7 @@ const SimpleLandingPage: React.FC = () => {
 
           <button
             onMouseEnter={() => {
+              console.log("Kiwi button hovered - applying kiwi effects");
               // Spin the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -505,8 +651,12 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(180deg)';
               }
+              
+              // Add kiwi hover effects
+              handleKiwiHover();
             }}
             onMouseLeave={() => {
+              console.log("Kiwi button unhovered - removing kiwi effects");
               // Reset the table, plates container, and central frame
               const tableFrame = document.getElementById('table-frame');
               const platesContainer = document.getElementById('plates-container');
@@ -523,6 +673,9 @@ const SimpleLandingPage: React.FC = () => {
               if (centralFrame) {
                 centralFrame.style.transform = 'rotate(0deg)';
               }
+              
+              // Remove kiwi hover effects
+              handleKiwiLeave();
             }}
             onClick={() => handleIngredientClick('Kiwi')}
             style={{
