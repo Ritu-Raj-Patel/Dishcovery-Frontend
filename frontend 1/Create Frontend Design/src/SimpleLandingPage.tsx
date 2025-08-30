@@ -26,9 +26,9 @@ const SimpleLandingPage: React.FC = () => {
 
   const handleBerryHover = () => {
     // Change main background color
-    const mainDiv = document.querySelector('div[style*="backgroundColor"]');
+    const mainDiv = document.querySelector('div[style*="backgroundColor"]') as HTMLElement;
     if (mainDiv) {
-      (mainDiv as HTMLElement).style.backgroundColor = '#F89BC2';
+      mainDiv.style.backgroundColor = '#F89BC2';
     }
     
     // Change SVG background color
@@ -77,9 +77,9 @@ const SimpleLandingPage: React.FC = () => {
 
   const handleBerryLeave = () => {
     // Revert main background color
-    const mainDiv = document.querySelector('div[style*="backgroundColor"]');
+    const mainDiv = document.querySelector('div[style*="backgroundColor"]') as HTMLElement;
     if (mainDiv) {
-      (mainDiv as HTMLElement).style.backgroundColor = '#D8DA9D';
+      mainDiv.style.backgroundColor = '#D8DA9D';
     }
     
     // Revert SVG background color
